@@ -1,0 +1,372 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 头部样式 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout-btn {
+    padding: 8px 15px;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* 上传部分样式 */
+.upload-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px dashed #dee2e6;
+}
+
+#excelFile {
+    margin-right: 10px;
+}
+
+/* 控制按钮样式 */
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button[onclick="startRecognition('true')"] {
+    background-color: #28a745;
+    color: white;
+}
+
+button[onclick="stopRecognition('true')"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+button[onclick="uploadFile()"] {
+    background-color: #007bff;
+    color: white;
+}
+
+button[onclick="exportExcel()"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+#voiceStatus {
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* 表格样式 */
+.table-container {
+    margin: 20px 0;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    background: #fff;
+}
+
+.table-wrapper {
+    overflow: auto;
+    max-height: 600px;
+    border: 2px solid #000;
+}
+
+.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    table-layout: fixed;
+    border: 2px solid #000 !important;
+}
+
+.excel-table th,
+.excel-table td {
+    border: 1px solid #000 !important;
+    padding: 8px;
+    text-align: left;
+    background-color: #f5f5f5;
+}
+
+.row-number-header,
+.row-number {
+    width: 50px;
+    background-color: #f8f9fa !important;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    border: 1px solid #000 !important;
+}
+
+.column-header {
+    background-color: #f8f9fa !important;
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border: 1px solid #000 !important;
+}
+
+.data-cell {
+    min-width: 100px;
+    padding: 8px;
+    border: 1px solid #000 !important;
+    background-color: #8c8686;
+    position: relative;
+    color: #000 !important;
+}
+
+.data-cell:focus {
+    outline: none;
+    background-color: #84e8a2 !important;
+    box-shadow: inset 0 0 0 2px #007bff;
+}
+
+.data-cell:hover {
+    background-color: #e9e9e9 !important;
+}
+
+.highlight {
+    background-color: #e3f2fd;
+}
+
+#positionStatus {
+    position: fixed;
+    top: 260px;
+    right: 40px;
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+/* 确保行号列固定 */
+.row-number {
+    position: sticky;
+    left: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+    border-right: 2px solid #ddd;
+}
+
+/* 表头和数据的分隔线 */
+thead {
+    border-bottom: 2px solid #000 !important;
+}
+
+/* 确保所有单元格都有边框和背景色 */
+.excel-table tbody tr td {
+    border: 1px solid #000 !important;
+    background-color: #f5f5f5;
+    color: #000 !important;
+}
+
+/* 编辑状态的单元格样式 */
+.excel-table tbody tr td[contenteditable="true"]:focus {
+    background-color: #ffffff !important;
+    border: 1px solid #000 !important;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* 确保边框不会重叠 */
+.excel-table {
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+/* 保持表头和行号的背景色 */
+.row-number-header,
+.row-number,
+.column-header {
+    background-color: #f8f9fa !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+/* 添加滚动条样式 */
+.table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    #excelTable {
+        font-size: 14px;
+    }
+
+    #excelTable th,
+    #excelTable td {
+        padding: 8px;
+    }
+}
+
+/* 登录和注册表单样式 */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.error {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.auth-links {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* 添加闪烁动画 */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.blinking {
+    animation: blink 1s infinite; /* 每1秒闪烁一次 */
+} 

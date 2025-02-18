@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Excel语音编辑器</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Excel语音编辑器</h1>
+            <div class="user-controls">
+                <span>欢迎, {{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">登出</a>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <input type="file" id="excelFile" accept=".xlsx,.xls">
+            <button onclick="uploadFile()">上传</button>
+        </div>
+        
+        <div class="controls">
+            <button onclick="startRecognition('true')">开始语音输入</button>
+            <button onclick="stopRecognition('true')">停止语音输入</button>
+            <button onclick="exportExcel()">导出Excel</button>
+            <span id="voiceStatus">语音识别未开启</span>
+            <div id="recordingIndicator" style="display: none; width: 20px; height: 20px; border-radius: 50%; background-color: red; display: inline-block; margin-left: 5px;"></div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table id="excelTable" class="excel-table">
+                    <thead>
+                        <tr>
+                            {% set last_column = None %}
+                            {% for column in columns %}
+                                {% if column.startswith("Column") and last_column == column %}
+                                    <th></th>  <!-- Empty header for merged column -->
+                                {% else %}
+                                    <th {% if column.startswith("Column") %}rowspan="2"{% endif %}>{{ column }}</th>
+                                {% endif %}
+                                {% set last_column = column %}
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                            <tr>
+                                {% for value in row %}
+                                    <td {% if value is not none %}style="background-color: gray;"{% endif %}>
+                                        {% if is_editable and value is none %}
+                                            <input type="text" value="{{ value }}" />
+                                        {% else %}
+                                            <span>{{ value }}</span>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="positionStatus"></div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // 页面加载完成后立即显示默认表格
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化语音识别
+            initSpeechRecognition();
+            // 设置自动保存
+            setInterval(saveChanges, 10 * 60 * 1000);
+        });
+    </script>
+</body>
+</html> 

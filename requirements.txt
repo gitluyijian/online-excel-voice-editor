@@ -1,0 +1,9 @@
+Flask==2.3.3
+Flask-Login==0.6.3
+pandas==2.1.4
+openpyxl==3.1.2
+xlrd==2.0.1
+baidu-aip==4.16.13
+python-dotenv==1.0.0
+Werkzeug==2.3.7
+chardet==5.2.0 
